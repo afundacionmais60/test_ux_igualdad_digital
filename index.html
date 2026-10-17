@@ -166,6 +166,12 @@ figcaption::before{content:"";width:14px;height:14px;border-radius:50%;flex:none
 .tip.top{top:12px;bottom:auto;transform:translateY(-14px)}
 .tip.top.on{transform:none}
 .tip.warn b{background:#fff;color:#C5221F}
+.tip.brk{background:#C5221F;color:#fff}
+.tip.brk b{background:#fff;color:#C5221F;font-size:12px;letter-spacing:-1px}
+.tip.ok b{background:var(--band)}
+.tip small{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.85;margin-bottom:2px}
+.lane.b .cursor{transition-duration:1.15s}
+.lane.b .cursor.hop{transition-duration:.42s}
 .done{position:absolute;left:12px;right:12px;bottom:12px;z-index:5;display:flex;align-items:center;gap:12px;padding:12px 14px;background:#fff;border-radius:8px;box-shadow:0 6px 22px rgba(32,33,36,.28);font-size:16px;font-weight:700;line-height:1.3;opacity:0;transform:translateY(14px);transition:opacity .4s,transform .4s}
 .done.on{opacity:1;transform:none}
 .done b{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:18px;color:#fff;background:var(--band)}
@@ -175,9 +181,18 @@ figcaption::before{content:"";width:14px;height:14px;border-radius:50%;flex:none
 .lane.b .track span.on{background:var(--before)}
 .lane.a .track span.on{background:var(--band)}
 .track span.cur{animation:cur 1s ease-in-out infinite}
+.lane.a .track{gap:0}
+.lane.a .track span{border-radius:0}
+.lane.a .track span:first-child{border-radius:4px 0 0 4px}
+.lane.a .track span:last-child{border-radius:0 4px 4px 0}
+.lane-flow{margin:8px 0 0;font-size:14px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:8px}
+.lane.b .lane-flow b{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 6px;border-radius:12px;background:var(--line);color:var(--ink);font-variant-numeric:tabular-nums;transition:background .3s,color .3s}
+.lane.b .lane-flow.hit b{background:#C5221F;color:#fff}
+.lane.a .lane-flow{color:var(--head)}
 .lane.b .track span.cur{background:#B9BDC2}
 .lane.a .track span.cur{background:#9DB5EA}
 @keyframes cur{50%{opacity:.45}}
+.lane.b .track span.brk{background:#C5221F}
 .lane-cap{display:flex;gap:10px;align-items:center;margin:14px 0 0;font-size:18px;font-weight:700;line-height:1.25}
 .lane.b .lane-cap{color:var(--muted)}
 .lane-cap .n{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
@@ -322,8 +337,8 @@ footer .wrap{padding-block:32px 40px}
 <section id="registro" class="sec"><div class="wrap">
   <p class="num">1</p><h2>Registro y primer acceso</h2>
   <div class="prose">
-    <p><strong>Era el punto más crítico del recorrido.</strong> Antes, una persona necesitaba <strong>10 pasos</strong> para empezar su primer curso, entre ellos leer seis páginas de texto legal con desplazamiento obligatorio y rellenar un formulario con datos duplicados.</p>
-    <p><strong>Ahora son 5 clics.</strong> El texto legal queda en <strong>una sola casilla desplegable</strong>, el formulario pide solo lo necesario y corrige automáticamente errores habituales en el correo, y la pantalla de confirmación explica en tres pasos qué hacer a continuación.</p>
+    <p><strong>Era el punto más crítico del recorrido.</strong> Antes, una persona necesitaba <strong>10 pasos</strong> para empezar su primer curso, entre ellos leer seis páginas de texto legal con desplazamiento obligatorio y rellenar un formulario con datos duplicados. Además, <strong>el proceso se interrumpía varias veces</strong>: había que salir de la plataforma para abrir el correo y volver a teclear el usuario y la contraseña.</p>
+    <p><strong>Ahora son 5 clics, en un flujo continuo y sin interrupciones.</strong> El texto legal queda en <strong>una sola casilla desplegable</strong>, el formulario pide solo lo necesario y corrige automáticamente errores habituales en el correo, y la pantalla de confirmación explica en tres pasos qué hacer a continuación.</p>
   </div>
   <div class="flow">
     <h3>El recorrido, en movimiento <small>simulación con las capturas reales, antes y ahora a la vez</small></h3>
@@ -333,6 +348,7 @@ footer .wrap{padding-block:32px 40px}
           <div class="lane-head"><span class="lane-tag">Antes</span><span class="lane-count">Paso <b>1</b> de 10</span></div>
           <div class="screen"><div class="bar"><i></i><i></i><i></i><span class="url"></span></div><div class="view"><div class="cam"></div><span class="chip"></span><div class="done"><b>✓</b><span></span></div></div></div>
           <div class="track"></div>
+          <p class="lane-flow">Interrupciones del proceso: <b>0</b></p>
           <p class="lane-cap"><span class="n">1</span><span class="t"></span></p>
           <p class="lane-note"></p>
         </div>
@@ -340,6 +356,7 @@ footer .wrap{padding-block:32px 40px}
           <div class="lane-head"><span class="lane-tag">Ahora</span><span class="lane-count">Clic <b>1</b> de 5</span></div>
           <div class="screen"><div class="bar"><i></i><i></i><i></i><span class="url"></span></div><div class="view"><div class="cam"></div><span class="chip"></span><div class="done"><b>✓</b><span></span></div></div></div>
           <div class="track"></div>
+          <p class="lane-flow">✓ Flujo continuo, sin interrupciones</p>
           <p class="lane-cap"><span class="n">1</span><span class="t"></span></p>
           <p class="lane-note"></p>
         </div>
@@ -541,7 +558,7 @@ footer .wrap{padding-block:32px 40px}
   var root=document.getElementById('race');if(!root)return;
   var WEB='campusmas60.aulavirtual.afundacion.org',MAIL='Correo electrónico';
   var DATA={
-    old:{unit:'Paso',fin:'Dentro del curso tras 10 pasos',steps:[
+    old:{unit:'Paso',slow:1.3,fin:'Dentro del curso tras 10 pasos y 3 interrupciones',steps:[
       {u:WEB,c:[92,70],z:2,note:'Pulsa «Crear nueva cuenta».'},
       {u:WEB,doc:[10.5,35.8,83.4,85.5],sp:[50,62],c:[10,93],z:1.5,warn:'Era obligatorio leer todo el texto legal para poder avanzar de página.',note:'Seis páginas de texto legal: el botón no se activa hasta llegar al final de la última.'},
       {u:WEB,pts:[[2.5,60,1]],c:[8,78],z:1.6,note:'Otra pantalla, solo para marcar una casilla de consentimiento.'},
@@ -550,19 +567,19 @@ footer .wrap{padding-block:32px 40px}
         {p:[40,21],z:2.2,boxes:[[7,17,78,24]],t:'Contraseña con mayúsculas, minúsculas, números y caracteres especiales'},
         {p:[40,38],z:1.7,boxes:[[7,25.8,78,32.6],[7,43,78,50]],t:'Obligatorio repetir la contraseña y el correo electrónico'}
       ],warn:'Todos estos puntos generaban una enorme fricción y abandono.',c:[13,85],z:1.4,note:'Pide un nombre de usuario aparte, una contraseña con muchos requisitos y repetir la contraseña y el correo.'},
-      {u:WEB,c:[56,49],z:1.6,then:{img:0,p:[78,42],warn:'En esta parte del proceso el flujo quedaba interrumpido, con lo cual era necesario que el usuario abriese el correo electrónico en su navegador.'},note:'Al pulsar «Continuar» vuelve a la pantalla de acceso: hay que salir de la plataforma e ir al correo.'},
-      {u:MAIL,c:[47,46],z:1.4,note:'Un enlace largo dentro del mensaje de confirmación.'},
-      {u:WEB,pts:[[92,50,1]],c:[92,59],z:2,note:'Tras confirmar, hay que volver a escribir usuario y contraseña.'},
+      {u:WEB,c:[56,49],z:1.6,then:{img:0,p:[78,42],brk:1,warn:'En esta parte del proceso el flujo quedaba interrumpido, con lo cual era necesario que el usuario abriese el correo electrónico en su navegador.'},note:'Al pulsar «Continuar» vuelve a la pantalla de acceso: hay que salir de la plataforma e ir al correo.'},
+      {u:MAIL,brk:'Hay que salir de la plataforma, abrir el correo en el navegador y buscar el mensaje.',c:[47,46],z:1.4,note:'Un enlace largo dentro del mensaje de confirmación.'},
+      {u:WEB,brk:'El enlace devuelve a la pantalla de acceso: hay que teclear otra vez el usuario y la contraseña.',pts:[[92,50,1]],c:[92,59],z:2,note:'Tras confirmar, hay que volver a escribir usuario y contraseña.'},
       {u:WEB,pts:[[55,25],[70,72],[40,88]],c:[16,49],z:1.4,note:'Entre avisos y muchos cursos, toca buscar por dónde empezar.'},
       {u:WEB,c:[37,79],z:1.6,note:'Un paso más: matricularse en el curso.'},
       {u:WEB,note:'Por fin, dentro del curso.'}
     ]},
-    new:{unit:'Clic',fin:'Dentro del curso en 5 clics',steps:[
+    new:{unit:'Clic',slow:1.1,fin:'Dentro del curso en 5 clics, sin interrupciones',steps:[
       {u:WEB,c:[92,70],z:2,note:'El mismo botón lleva directamente al formulario.'},
       {u:WEB,pts:[[45,16],[45,25],[45,34],[45,44],[27,53],[15.5,80,1]],c:[24,87],z:1.3,note:'Un único formulario con lo imprescindible; el texto legal, en un desplegable.'},
-      {u:WEB,c:[66,67],z:1.4,note:'Tres pasos claros y un botón que abre el correo.'},
+      {u:WEB,ok:'El botón abre el correo y el enlace lleva directo al curso: el flujo no se corta.',c:[66,67],z:1.4,note:'Tres pasos claros y un botón que abre el correo.'},
       {u:MAIL,c:[70,91],z:1.3,note:'Abre el mensaje de Afundación y confirma la cuenta.'},
-      {u:WEB,c:[17,91],z:1.4,note:'Llega a la ficha de su primer curso: un clic y empieza.'}
+      {u:WEB,ok:'Entra directamente, sin volver a iniciar sesión.',c:[17,91],z:1.4,note:'Llega a la ficha de su primer curso: un clic y empieza.'}
     ]}
   };
   // Texto legal completo (6 páginas del PDF original, apiladas) que se desplaza dentro del visor del paso 2
@@ -573,6 +590,7 @@ footer .wrap{padding-block:32px 40px}
 
   // Reloj propio para que la pausa congele la secuencia
   var timers=[],playing=false,state='idle',run=0,last=0,autoPaused=false;
+  var tick2=wait;
   function wait(ms){var r=run;return new Promise(function(res){timers.push({t:ms,res:res,run:r})})}
   function tick(now){
     var dt=last?now-last:0;last=now;
@@ -596,6 +614,7 @@ footer .wrap{padding-block:32px 40px}
     L.cursor=document.createElement('div');L.cursor.className='cursor';L.cursor.innerHTML=CURSOR;
     L.ripple=document.createElement('div');L.ripple.className='ripple';
     L.cam.appendChild(L.ripple);L.cam.appendChild(L.cursor);
+    L.flow=el.querySelector('.lane-flow');L.brks=0;
     L.tip=document.createElement('div');L.tip.className='tip';L.tip.innerHTML='<b></b><span></span>';L.view.appendChild(L.tip);
     L.hls=[];L.hlBoxes=[];
     if(d.steps.some(function(s){return s.doc})){
@@ -670,11 +689,23 @@ footer .wrap{padding-block:32px 40px}
     var k=L.doc.clientWidth/LEGAL.w,y=p*(LEGAL.ph+LEGAL.gap)*k,max=L.docImg.offsetHeight-L.doc.clientHeight;
     L.docImg.style.transform='translateY('+(-Math.min(y,max))+'px)';
   }
-  function tip(L,n,text,warn,top){
-    L.tip.querySelector('b').textContent=n;L.tip.querySelector('span').textContent=text;
-    L.tip.classList.toggle('warn',!!warn);L.tip.classList.toggle('top',!!top);L.tip.classList.add('on');
+  // o: {warn, brk, ok, top, head}
+  function tip(L,n,text,o){
+    o=o||{};var sp=L.tip.querySelector('span');
+    L.tip.querySelector('b').textContent=n;sp.textContent=text;
+    if(o.head){var sm=document.createElement('small');sm.textContent=o.head;sp.insertBefore(sm,sp.firstChild)}
+    ['warn','brk','ok','top'].forEach(function(c){L.tip.classList.toggle(c,!!o[c])});
+    L.tip.classList.add('on');
+  }
+  // Marca una interrupción del flujo: contador, tramo rojo en la barra y aviso arriba
+  function brk(L,text){
+    L.brks++;L.flow.classList.add('hit');L.flow.querySelector('b').textContent=L.brks;
+    L.segs[L.i].classList.add('brk');
+    tip(L,'❚❚',text,{brk:true,top:true,head:'Interrupción '+L.brks+' de 3'});
   }
   function reset(L){
+    L.brks=0;L.segs.forEach(function(sg){sg.classList.remove('brk')});
+    if(L.flow.querySelector('b')){L.flow.classList.remove('hit');L.flow.querySelector('b').textContent='0'}
     L.cam.style.transform='';L.done.classList.remove('on');L.cursor.classList.remove('wheel');
     show(L,0);place(L,[50,60],true);
   }
@@ -685,11 +716,18 @@ footer .wrap{padding-block:32px 40px}
 
   async function step(L,i){
     var s=L.d.steps[i],r=run;
+    // Cada carril tiene su ritmo: el de antes, más lento, para transmitir la pesadez del proceso
+    var wait=function(ms){return tick2(ms*(L.d.slow||1))};
     show(L,i);L.cam.style.transform='';
     await wait(650);
+    if(s.brk||s.ok){
+      if(s.brk)brk(L,s.brk);else tip(L,'✓',s.ok,{ok:true,top:true});
+      await wait(s.brk?3400:2600);if(r!==run)return;
+      L.tip.classList.remove('on');await wait(300);
+    }
     if(s.doc){
       L.cursor.classList.remove('hop');place(L,s.sp);await wait(850);if(r!==run)return;
-      zoom(L,[47,60],1.35);tip(L,'!',s.warn,true,true);
+      zoom(L,[47,60],1.35);tip(L,'!',s.warn,{warn:true,top:true});
       L.cursor.classList.add('wheel');L.chip.classList.add('on','bot');
       for(var p=1;p<=LEGAL.pages;p++){
         if(r!==run)return;L.chip.textContent='Página '+p+' de '+LEGAL.pages;
@@ -709,7 +747,7 @@ footer .wrap{padding-block:32px 40px}
       }
       if(r!==run)return;
       boxes(L,[]);L.tip.classList.remove('on');L.cam.style.transform='';await wait(450);
-      tip(L,'!',s.warn,true);await wait(3200);
+      tip(L,'!',s.warn,{warn:true});await wait(3200);
       L.tip.classList.remove('on');await wait(300);
     }
     for(var k=0;k<(s.pts||[]).length;k++){
@@ -724,7 +762,8 @@ footer .wrap{padding-block:32px 40px}
     if(s.then){
       L.cam.style.transform='';await wait(250);if(r!==run)return;
       pic(L,s.then.img);await wait(500);place(L,s.then.p);await wait(600);
-      tip(L,'!',s.then.warn,true,true);await wait(5200);
+      if(s.then.brk)brk(L,s.then.warn);else tip(L,'!',s.then.warn,{warn:true,top:true});
+      await wait(5200);
       L.tip.classList.remove('on');await wait(300);return;
     }
     L.cam.style.transform='';await wait(250);
@@ -744,12 +783,12 @@ footer .wrap{padding-block:32px 40px}
     lanes.forEach(reset);
     var r=run,oldL=lanes[0],newL=lanes[1];
     go(newL,r).then(function(ok){
-      if(ok&&r===run&&state==='running')msg.innerHTML='<strong>Ahora ya está dentro del curso.</strong> Antes, a estas alturas, el usuario apenas iba por el paso '+(oldL.i+1)+' de 10.';
+      if(ok&&r===run&&state==='running')msg.innerHTML='<strong>Ahora ya está dentro del curso, en un flujo continuo.</strong> Antes, a estas alturas, el usuario apenas iba por el paso '+(oldL.i+1)+' de 10.';
     });
     go(oldL,r).then(function(ok){
       if(!ok||r!==run)return;
       state='ended';setPlaying(false);
-      msg.innerHTML='Mismo objetivo, empezar el primer curso: <strong>de 10 pasos a 5 clics</strong>, sin texto legal obligatorio ni volver a iniciar sesión.';
+      msg.innerHTML='Mismo objetivo, empezar el primer curso: <strong>de 10 pasos con 3 interrupciones a 5 clics en un flujo continuo</strong>, sin texto legal obligatorio ni volver a iniciar sesión.';
     });
     setPlaying(true);
   }
