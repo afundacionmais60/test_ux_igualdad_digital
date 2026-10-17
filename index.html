@@ -157,6 +157,10 @@ figcaption::before{content:"";width:14px;height:14px;border-radius:50%;flex:none
 .doc.on{opacity:1}
 .doc img{display:block;width:100%;height:auto;transition:transform .9s cubic-bezier(.45,0,.25,1)}
 .chip.bot{top:auto;bottom:12px}
+.typed{position:absolute;z-index:2;display:flex;align-items:center;overflow:hidden;white-space:nowrap;background:#fff;color:#212121;font-family:Arial,Helvetica,sans-serif;pointer-events:none}
+.typed.dark{background:#5F89C6;color:#fff}
+.typed.caret::after{content:"";flex:none;width:1.5px;height:62%;margin-left:1px;background:currentColor;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
 .hl{position:absolute;z-index:2;border:3px solid #C5221F;border-radius:6px;background:rgba(197,34,31,.07);opacity:0;transition:opacity .3s;pointer-events:none}
 .hl.on{opacity:1}
 .tip{position:absolute;left:12px;right:12px;bottom:12px;z-index:5;display:flex;align-items:center;gap:12px;padding:12px 14px;background:#fff;color:var(--ink);border-radius:8px;box-shadow:0 6px 22px rgba(32,33,36,.28);font-size:16px;font-weight:700;line-height:1.3;opacity:0;transform:translateY(14px);transition:opacity .35s,transform .35s}
@@ -211,7 +215,7 @@ figcaption::before{content:"";width:14px;height:14px;border-radius:50%;flex:none
 .all-steps>summary:hover{border-color:var(--head)}
 @media (prefers-reduced-motion:reduce){
   .cam,.pic,.cursor,.chip,.done,.track span,.hl,.tip,.doc,.doc img{transition:none}
-  .cursor.wheel,.track span.cur,.ripple.go{animation:none}
+  .cursor.wheel,.track span.cur,.ripple.go,.typed.caret::after{animation:none}
 }
 @media (max-width:900px){
   .race{padding:14px}
@@ -560,23 +564,23 @@ footer .wrap{padding-block:32px 40px}
   var DATA={
     old:{unit:'Paso',slow:1.3,fin:'Dentro del curso tras 10 pasos y 3 interrupciones',steps:[
       {u:WEB,c:[92,70],z:2,note:'Pulsa «Crear nueva cuenta».'},
-      {u:WEB,doc:[10.5,35.8,83.4,85.5],sp:[50,62],c:[10,93],z:1.5,warn:'Era obligatorio leer todo el texto legal para poder avanzar de página.',note:'Seis páginas de texto legal: el botón no se activa hasta llegar al final de la última.'},
+      {u:WEB,doc:[10.5,35.8,83.4,85.5],sp:[50,62],c:[10,93],z:1.5,warn:'Había que ver todas las páginas del texto legal antes de poder cubrir el formulario con los datos para crear la cuenta.',note:'Seis páginas de texto legal antes de llegar al formulario: el botón no se activa hasta el final de la última.'},
       {u:WEB,pts:[[2.5,60,1]],c:[8,78],z:1.6,note:'Otra pantalla, solo para marcar una casilla de consentimiento.'},
       {u:WEB,focus:[
-        {p:[40,5],z:2.2,boxes:[[7,8.5,78,15.2]],t:'Escoger un nombre de usuario'},
-        {p:[40,21],z:2.2,boxes:[[7,17,78,24]],t:'Contraseña con mayúsculas, minúsculas, números y caracteres especiales'},
-        {p:[40,38],z:1.7,boxes:[[7,25.8,78,32.6],[7,43,78,50]],t:'Obligatorio repetir la contraseña y el correo electrónico'}
-      ],warn:'Todos estos puntos generaban una enorme fricción y abandono.',c:[13,85],z:1.4,note:'Pide un nombre de usuario aparte, una contraseña con muchos requisitos y repetir la contraseña y el correo.'},
+        {p:[40,5],z:2.2,boxes:[[7,10.4,78.2,15.6]],t:'Escoger un nombre de usuario',type:[[[7.9,11.3,77.3,14.7],'carmen.lopez58']]},
+        {p:[40,21],z:2.2,boxes:[[7,19.1,78.2,24.3]],t:'Contraseña con mayúsculas, minúsculas, números y caracteres especiales',type:[[[7.9,20,77.3,23.35],'Carmen#1958',1]]},
+        {p:[40,38],z:1.7,boxes:[[7,27.8,78.2,33],[7,45.1,78.2,50.1]],t:'Obligatorio repetir la contraseña y el correo electrónico',type:[[[7.9,28.7,77.3,32.05],'Carmen#1958',1],[[7.9,37.3,77.3,40.7],'carmen.lopez@gmail.com'],[[7.9,46,77.3,49.2],'carmen.lopez@gmail.com']]}
+      ],pts:[[40,56,0,[[7.9,54.6,77.3,57.9],'Carmen']],[40,65,0,[[7.9,63.3,77.3,66.55],'López']]],warn:'Todos estos puntos generaban una enorme fricción y abandono.',c:[13,85],z:1.4,note:'Pide un nombre de usuario aparte, una contraseña con muchos requisitos y repetir la contraseña y el correo.'},
       {u:WEB,c:[56,49],z:1.6,then:{img:0,p:[78,42],brk:1,warn:'En esta parte del proceso el flujo quedaba interrumpido, con lo cual era necesario que el usuario abriese el correo electrónico en su navegador.'},note:'Al pulsar «Continuar» vuelve a la pantalla de acceso: hay que salir de la plataforma e ir al correo.'},
       {u:MAIL,brk:'Hay que salir de la plataforma, abrir el correo en el navegador y buscar el mensaje.',c:[47,46],z:1.4,note:'Un enlace largo dentro del mensaje de confirmación.'},
-      {u:WEB,brk:'El enlace devuelve a la pantalla de acceso: hay que teclear otra vez el usuario y la contraseña.',pts:[[92,50,1]],c:[92,59],z:2,note:'Tras confirmar, hay que volver a escribir usuario y contraseña.'},
+      {u:WEB,brk:'El enlace devuelve a la pantalla de acceso: hay que teclear otra vez el usuario y la contraseña.',pz:[99,53,2.2],pts:[[93,50.6,1,[[85.8,49.3,99,52],'carmen.lopez58',0,1]],[93,54.8,1,[[85.8,53.4,99,56.2],'Carmen#1958',1,1]]],c:[92,59],z:1.8,note:'Tras confirmar, hay que volver a escribir usuario y contraseña.'},
       {u:WEB,pts:[[55,25],[70,72],[40,88]],c:[16,49],z:1.4,note:'Entre avisos y muchos cursos, toca buscar por dónde empezar.'},
       {u:WEB,c:[37,79],z:1.6,note:'Un paso más: matricularse en el curso.'},
       {u:WEB,note:'Por fin, dentro del curso.'}
     ]},
     new:{unit:'Clic',slow:1.1,fin:'Dentro del curso en 5 clics, sin interrupciones',steps:[
       {u:WEB,c:[92,70],z:2,note:'El mismo botón lleva directamente al formulario.'},
-      {u:WEB,pts:[[45,16],[45,25],[45,34],[45,44],[27,53],[15.5,80,1]],c:[24,87],z:1.3,note:'Un único formulario con lo imprescindible; el texto legal, en un desplegable.'},
+      {u:WEB,pz:[45,28,1.5],pts:[[45,16,0,[[14,14.3,80,17.95],'Carmen']],[45,25,0,[[14,23.55,80,27.15],'López']],[45,34,0,[[14,32.95,80,36.55],'carmen.lopez@gmail.com']],[45,44,0,[[14,42.2,80,45.85],'Carmen#1958',1]],[27,53],[15.5,80,1]],c:[24,87],z:1.3,note:'Un único formulario con lo imprescindible; el texto legal, en un desplegable.'},
       {u:WEB,ok:'El botón abre el correo y el enlace lleva directo al curso: el flujo no se corta.',c:[66,67],z:1.4,note:'Tres pasos claros y un botón que abre el correo.'},
       {u:MAIL,c:[70,91],z:1.3,note:'Abre el mensaje de Afundación y confirma la cuenta.'},
       {u:WEB,ok:'Entra directamente, sin volver a iniciar sesión.',c:[17,91],z:1.4,note:'Llega a la ficha de su primer curso: un clic y empieza.'}
@@ -616,7 +620,7 @@ footer .wrap{padding-block:32px 40px}
     L.cam.appendChild(L.ripple);L.cam.appendChild(L.cursor);
     L.flow=el.querySelector('.lane-flow');L.brks=0;
     L.tip=document.createElement('div');L.tip.className='tip';L.tip.innerHTML='<b></b><span></span>';L.view.appendChild(L.tip);
-    L.hls=[];L.hlBoxes=[];
+    L.hls=[];L.hlBoxes=[];L.typed=[];
     if(d.steps.some(function(s){return s.doc})){
       L.doc=document.createElement('div');L.doc.className='doc';L.doc.innerHTML='<img alt="" src="'+LEGAL.src+'">';
       L.docImg=L.doc.firstChild;L.cam.insertBefore(L.doc,L.ripple);
@@ -639,6 +643,7 @@ footer .wrap{padding-block:32px 40px}
     place(L,L.pt,true);
     boxes(L,L.hlBoxes);
     docPlace(L);
+    L.typed.forEach(function(t){fieldPlace(L,t)});
   }
   function xy(L,pt){var b=L.pics[L.pi].box||{l:0,t:0,w:L.view.clientWidth,h:L.view.clientHeight};return [b.l+pt[0]/100*b.w,b.t+pt[1]/100*b.h]}
   function place(L,pt,instant){
@@ -661,6 +666,7 @@ footer .wrap{padding-block:32px 40px}
     L.segs.forEach(function(sg,j){sg.classList.toggle('on',j<i);sg.classList.toggle('cur',j===i)});
     L.url.textContent=s.u;L.count.textContent=i+1;L.n.textContent=i+1;L.t.textContent=s.label;L.note.textContent=s.note;
     L.chip.classList.remove('on','bot');L.tip.classList.remove('on');boxes(L,[]);
+    L.typed.forEach(function(t){t.remove()});L.typed=[];
     if(L.doc){L.doc.classList.toggle('on',!!s.doc);L.docImg.style.transform='';docPlace(L)}
   }
   // Muestra una captura (puede ser la de otro paso, p. ej. al volver a la pantalla de acceso)
@@ -688,6 +694,24 @@ footer .wrap{padding-block:32px 40px}
   function docScroll(L,p){
     var k=L.doc.clientWidth/LEGAL.w,y=p*(LEGAL.ph+LEGAL.gap)*k,max=L.docImg.offsetHeight-L.doc.clientHeight;
     L.docImg.style.transform='translateY('+(-Math.min(y,max))+'px)';
+  }
+  // Escritura simulada en un campo: f = [[x1,y1,x2,y2], texto, oculto (contraseña), campo oscuro]
+  function fieldPlace(L,t){
+    var b=L.pics[L.pi].box,r=t.rect;if(!b)return;
+    var hgt=(r[3]-r[1])/100*b.h;
+    t.style.left=(b.l+r[0]/100*b.w+1)+'px';t.style.top=(b.t+r[1]/100*b.h+1)+'px';
+    t.style.width=((r[2]-r[0])/100*b.w-2)+'px';t.style.height=(hgt-2)+'px';
+    t.style.fontSize=Math.max(4,hgt*.48)+'px';t.style.paddingLeft=(hgt*.3)+'px';
+  }
+  async function typeIn(L,f,wait,r){
+    var t=document.createElement('div');t.className='typed caret'+(f[3]?' dark':'');t.rect=f[0];
+    L.cam.insertBefore(t,L.ripple);L.typed.push(t);fieldPlace(L,t);
+    for(var c=1;c<=f[1].length;c++){
+      if(r!==run)return;
+      t.textContent=f[2]?'•'.repeat(c):f[1].slice(0,c);
+      await wait(f[2]?95:70);
+    }
+    await wait(250);t.classList.remove('caret');
   }
   // o: {warn, brk, ok, top, head}
   function tip(L,n,text,o){
@@ -743,7 +767,13 @@ footer .wrap{padding-block:32px 40px}
         L.cursor.classList.remove('hop');L.tip.classList.remove('on');
         zoom(L,fo.p,fo.z);place(L,[fo.boxes[0][2]-6,(fo.boxes[0][1]+fo.boxes[0][3])/2]);
         await wait(500);boxes(L,fo.boxes);tip(L,f+1,fo.t);
-        await wait(2600);
+        await wait(900);
+        for(var q=0;q<(fo.type||[]).length;q++){
+          if(r!==run)return;var ty=fo.type[q];
+          L.cursor.classList.toggle('hop',q>0);place(L,[ty[0][2]-4,(ty[0][1]+ty[0][3])/2]);await wait(q?350:200);
+          await typeIn(L,ty,wait,r);
+        }
+        await wait(1100);
       }
       if(r!==run)return;
       boxes(L,[]);L.tip.classList.remove('on');L.cam.style.transform='';await wait(450);
@@ -752,8 +782,10 @@ footer .wrap{padding-block:32px 40px}
     }
     for(var k=0;k<(s.pts||[]).length;k++){
       if(r!==run)return;var pt=s.pts[k];
+      if(s.pz){if(pt[3])zoom(L,s.pz,s.pz[2]);else L.cam.style.transform=''}
       L.cursor.classList.toggle('hop',k>0);place(L,pt);await wait(k?340:880);
       if(pt[2]){tap(L,true);await wait(260)}
+      if(pt[3]){await typeIn(L,pt[3],wait,r);await wait(150)}
     }
     if(!s.c)return;
     L.cursor.classList.remove('hop');zoom(L,s.c,s.z);place(L,s.c);
