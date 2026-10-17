@@ -572,7 +572,7 @@ footer .wrap{padding-block:32px 40px}
         {p:[40,38],z:1.7,boxes:[[7,27.8,78.2,33],[7,45.1,78.2,50.1]],t:'Obligatorio repetir la contraseña y el correo electrónico',type:[[[7.9,28.7,77.3,32.05],'Carmen#1958',1],[[7.9,37.3,77.3,40.7],'carmen.lopez@gmail.com'],[[7.9,46,77.3,49.2],'carmen.lopez@gmail.com']]}
       ],pts:[[40,56,0,[[7.9,54.6,77.3,57.9],'Carmen']],[40,65,0,[[7.9,63.3,77.3,66.55],'López']]],warn:'Todos estos puntos generaban una enorme fricción y abandono.',c:[13,85],z:1.4,note:'Pide un nombre de usuario aparte, una contraseña con muchos requisitos y repetir la contraseña y el correo.'},
       {u:WEB,c:[56,49],z:1.6,then:{img:0,p:[78,42],brk:1,warn:'En esta parte del proceso el flujo quedaba interrumpido, con lo cual era necesario que el usuario abriese el correo electrónico en su navegador.'},note:'Al pulsar «Continuar» vuelve a la pantalla de acceso: hay que salir de la plataforma e ir al correo.'},
-      {u:MAIL,brk:'Hay que salir de la plataforma, abrir el correo en el navegador y buscar el mensaje.',c:[47,46],z:1.4,note:'Un enlace largo dentro del mensaje de confirmación.'},
+      {u:MAIL,pre:{from:3,c:[70,91],z:1.6},brk:'Hay que salir de la plataforma, abrir el correo en el navegador y buscar el mensaje.',c:[47,46],z:1.4,note:'Un enlace largo dentro del mensaje de confirmación.'},
       {u:WEB,brk:'El enlace devuelve a la pantalla de acceso: hay que teclear otra vez el usuario y la contraseña.',pz:[99,53,2.2],pts:[[93,50.6,1,[[85.8,49.3,99,52],'carmen.lopez58',0,1]],[93,54.8,1,[[85.8,53.4,99,56.2],'Carmen#1958',1,1]]],c:[92,59],z:1.8,note:'Tras confirmar, hay que volver a escribir usuario y contraseña.'},
       {u:WEB,pts:[[55,25],[70,72],[40,88]],c:[16,49],z:1.4,note:'Entre avisos y muchos cursos, toca buscar por dónde empezar.'},
       {u:WEB,c:[37,79],z:1.6,note:'Un paso más: matricularse en el curso.'},
@@ -614,6 +614,14 @@ footer .wrap{padding-block:32px 40px}
       s.label=src[i]?src[i].querySelector('.lbl').textContent.replace(/^\s*\d+/,'').trim():'';
       im.addEventListener('load',function(){layout(L)});
       L.cam.appendChild(im);L.pics.push(im);
+    });
+    // Pantallas previas tomadas de otro carril (p. ej. la bandeja de Gmail antes de abrir el mensaje)
+    d.steps.forEach(function(s){
+      if(!s.pre)return;
+      var g=document.querySelectorAll('#registro .steps.now .step img')[s.pre.from],im=new Image();
+      im.className='pic';im.alt=g?g.alt:'';im.src=g?g.src:'';im.setAttribute('aria-hidden','true');
+      im.addEventListener('load',function(){layout(L)});
+      s.pre.idx=L.pics.length;L.cam.appendChild(im);L.pics.push(im);
     });
     L.cursor=document.createElement('div');L.cursor.className='cursor';L.cursor.innerHTML=CURSOR;
     L.ripple=document.createElement('div');L.ripple.className='ripple';
@@ -743,11 +751,21 @@ footer .wrap{padding-block:32px 40px}
     // Cada carril tiene su ritmo: el de antes, más lento, para transmitir la pesadez del proceso
     var wait=function(ms){return tick2(ms*(L.d.slow||1))};
     show(L,i);L.cam.style.transform='';
+    if(s.pre)pic(L,s.pre.idx);
     await wait(650);
     if(s.brk||s.ok){
       if(s.brk)brk(L,s.brk);else tip(L,'✓',s.ok,{ok:true,top:true});
       await wait(s.brk?3400:2600);if(r!==run)return;
       L.tip.classList.remove('on');await wait(300);
+    }
+    if(s.pre){
+      // Primero la bandeja de entrada: clic en el mensaje y, después, se abre
+      await wait(500);if(r!==run)return;
+      L.cursor.classList.remove('hop');zoom(L,s.pre.c,s.pre.z);place(L,s.pre.c);
+      await wait(1000);if(r!==run)return;
+      tap(L);await wait(500);
+      L.cam.style.transform='';await wait(250);
+      pic(L,i);await wait(800);
     }
     if(s.doc){
       L.cursor.classList.remove('hop');place(L,s.sp);await wait(850);if(r!==run)return;
