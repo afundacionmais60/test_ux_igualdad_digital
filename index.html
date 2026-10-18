@@ -234,6 +234,21 @@ figcaption::before{content:"";width:14px;height:14px;border-radius:50%;flex:none
   .tip b{width:26px;height:26px;font-size:13px}
 }
 
+/* Marcadores numerados sobre las capturas: rojo = problema de antes, azul = mejora de ahora */
+.shot .mk{position:absolute;z-index:2;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;display:grid;place-items:center;color:#fff;font:700 14px/1 var(--font);background:var(--head);box-shadow:0 0 0 3px rgba(255,255,255,.9),0 2px 6px rgba(0,0,0,.35);transform:scale(0);transition:transform .35s cubic-bezier(.3,1.6,.5,1);pointer-events:none}
+.b .shot .mk{background:#C5221F}
+.mk-on .shot .mk{transform:scale(1)}
+.mk-on .shot .mk.hot{transform:scale(1.3)}
+.shot.has-mk:hover img,.shot.has-mk:focus-visible img{transform:none}
+.mk-list{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
+.mk-list li{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.4;color:var(--ink);padding:2px 4px;border-radius:4px;cursor:default}
+.mk-list li:hover{background:var(--tint)}
+.mk-list li b{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:13px;color:#fff;background:var(--head);margin-top:-1px}
+.b .mk-list li b{background:#C5221F}
+.b .mk-list li{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.shot .mk{transition:none}}
+@media (max-width:900px){.shot .mk{width:22px;height:22px;margin:-11px 0 0 -11px;font-size:12px}}
+
 .pager{display:flex;justify-content:space-between;gap:12px;margin-top:36px}
 .pager a{font-size:15px;text-decoration:none;color:var(--muted);border:1px solid var(--line);padding:8px 14px;background:var(--page)}
 .pager a:hover{color:var(--head);border-color:var(--head)}
@@ -887,6 +902,47 @@ footer .wrap{padding-block:32px 40px}
       else if(playing){autoPaused=true;setPlaying(false)}
     })},{threshold:.3}).observe(root);
   }
+})();
+</script>
+
+<script>
+// Marcadores numerados sobre las capturas de las secciones 2 a 8 (posición en % de la imagen y texto de la leyenda)
+(function(){
+  var MK={
+    'Web de entrada, antes':[[55,19,'La cabecera no indica por dónde empezar.'],[32.5,29.5,'La página va directa a un escaparate de cursos, sin guía de primeros pasos.'],[12,40,'Fotos de banco de imágenes en los cursos.']],
+    'Web de entrada, ahora':[[63.5,15.5,'Un botón en la cabecera invita a empezar.'],[39,27.5,'Un bloque «¿Por dónde empiezo?» con tres pasos: ver el vídeo, crear la cuenta y elegir curso con un test.'],[20,53,'Ilustraciones propias en lugar de fotos de banco de imágenes.']],
+    'Test de competencias: inicio':[[43,45.5,'Primero pregunta qué móvil utiliza la persona.'],[74,38,'Aclara que no es un examen: todas las respuestas son válidas.'],[58,79.5,'Indica la duración: de 3 a 5 minutos.']],
+    'Test de competencias: resultados':[[67,37,'Muestra su nivel de confianza digital.'],[54,61,'Le recomienda primero el curso cuyas preguntas obtuvieron peor puntuación.'],[53,95,'Indica la necesidad de cada curso.']],
+    'Portada de Moodle, antes':[[24,21.5,'Un bloque de avisos que añade ruido visual.'],[72,46,'Mosaicos con fotos y filas desiguales.']],
+    'Portada de Moodle, ahora':[[62,16,'La misma cabecera que la web.'],[40,28,'Un videotutorial para quien entra por primera vez.'],[93,75,'Mosaicos ilustrados, a cuatro por fila.']],
+    'Acceso a un curso, antes':[[52.5,65.5,'Una pantalla técnica de «Auto-matriculación (Estudiante)».'],[59,33,'El temario aparece vacío.'],[45.5,80,'El botón dice «Matricularme».']],
+    'Acceso a un curso, ahora':[[62,23.5,'El temario del curso, a la vista.'],[29,87,'Un único botón: «Comenzar curso».']],
+    'Portada del curso, antes':[[65,14,'La imagen aparece cortada, sin alinear arriba.'],[30,37.5,'Pestañas que no aportan, como «Más».'],[84,49.5,'Enlaces duplicados al mismo videotutorial.']],
+    'Portada del curso, ahora':[[70,20,'La imagen, alineada arriba.'],[12,39,'Sin pestañas que no aportan: solo «Curso».'],[90,49,'Una insignia avisa al superar la mitad del curso.'],[52,65,'Un botón destacado para continuar donde se dejó.']],
+    'Navegación, antes':[[85,6.5,'Migas de pan que sacan de la lección sin querer.'],[30,58,'Dos botones parecidos: «Vista previa» y «Entrar».'],[57.3,86,'Para avanzar, un desplegable «Ir a…» y enlaces pequeños.']],
+    'Navegación, ahora':[[60,77,'Botón «Siguiente» grande, con el nombre de la próxima lección.'],[37,92,'«Volver al inicio», siempre visible.'],[40,77,'Botón «Anterior», también con el nombre de la lección.']],
+    'Capítulos, antes':[[96.5,72,'Lecciones a tres por fila, con títulos en letra fina.']],
+    'Capítulos, ahora':[[51,47,'Un botón lleva directamente a la primera lección.'],[96.5,78,'Lecciones a cuatro por fila, con títulos en negrita.'],[70,89,'Los PDF descargables, en rojo.']]
+  };
+  var figs=[];
+  [].forEach.call(document.querySelectorAll('.cmp .shot'),function(btn){
+    var list=MK[btn.dataset.cap];if(!list)return;
+    var fig=btn.closest('figure'),ol=document.createElement('ol'),mks=[];
+    ol.className='mk-list';btn.classList.add('has-mk');
+    list.forEach(function(m,i){
+      var s=document.createElement('span');s.className='mk';s.textContent=i+1;s.setAttribute('aria-hidden','true');
+      s.style.left=m[0]+'%';s.style.top=m[1]+'%';s.style.transitionDelay=(i*.15+.1)+'s';btn.appendChild(s);mks.push(s);
+      var li=document.createElement('li');li.innerHTML='<b aria-hidden="true">'+(i+1)+'</b><span></span>';li.lastChild.textContent=m[2];ol.appendChild(li);
+      li.addEventListener('mouseenter',function(){s.classList.add('hot')});
+      li.addEventListener('mouseleave',function(){s.classList.remove('hot')});
+    });
+    btn.insertAdjacentElement('afterend',ol);figs.push(fig);
+  });
+  // Los marcadores aparecen uno a uno al llegar a cada captura
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('mk-on');io.unobserve(e.target)}})},{threshold:.35});
+    figs.forEach(function(f){io.observe(f)});
+  }else figs.forEach(function(f){f.classList.add('mk-on')});
 })();
 </script>
 
