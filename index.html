@@ -172,7 +172,7 @@ figcaption::before{content:"";width:14px;height:14px;border-radius:50%;flex:none
 .chip.on{opacity:1;transform:none}
 .doc{position:absolute;z-index:1;overflow:hidden;background:#53575A;opacity:0;transition:opacity .4s;pointer-events:none}
 .doc.on{opacity:1}
-.doc img{display:block;width:100%;height:auto;transition:transform .9s cubic-bezier(.45,0,.25,1)}
+.doc img{display:block;width:100%;height:auto;transition:transform .55s cubic-bezier(.45,0,.25,1)}
 .chip.bot{top:auto;bottom:12px}
 .typed{position:absolute;z-index:2;display:flex;align-items:center;overflow:hidden;white-space:nowrap;background:#fff;color:#212121;font-family:Arial,Helvetica,sans-serif;pointer-events:none}
 .typed.dark{background:#5F89C6;color:#fff}
@@ -932,9 +932,9 @@ footer .wrap{padding-block:32px 40px}
       L.cursor.classList.add('wheel');L.chip.classList.add('on','bot');
       for(var p=1;p<=LEGAL.pages;p++){
         if(r!==run)return;L.chip.textContent='Página '+p+' de '+LEGAL.pages;
-        docScroll(L,p-1);await wait(p===1?900:1300);
+        docScroll(L,p-1);await wait(600);
       }
-      docScroll(L,LEGAL.pages);await wait(900);if(r!==run)return;
+      docScroll(L,LEGAL.pages);await wait(600);if(r!==run)return;
       L.cursor.classList.remove('wheel');L.chip.textContent='Ya se puede seguir';L.tip.classList.remove('on');L.cam.style.transform='';
       if(s.enable){
         // El botón «Siguiente», gris hasta ahora, se activa al llegar al final del texto legal
