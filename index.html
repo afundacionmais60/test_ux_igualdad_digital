@@ -358,7 +358,7 @@ footer .wrap{padding-block:32px 40px}
           <div class="lane-head"><span class="lane-tag">Antes</span><span class="lane-count">Paso <b>1</b> de 10</span></div>
           <div class="screen"><div class="bar"><i></i><i></i><i></i><span class="url"></span></div><div class="view"><div class="cam"></div><span class="chip"></span><div class="done"><b>✓</b><span></span></div></div></div>
           <div class="track"></div>
-          <p class="lane-stats"><span>Clics <b class="sc">0</b></span><span>Teclas pulsadas <b class="st">0</b></span></p>
+          <p class="lane-stats"><span>Acciones (clics) <b class="sc">0</b></span></p>
           <p class="lane-flow">Interrupciones del proceso: <b>0</b></p>
           <p class="lane-cap"><span class="n">1</span><span class="t"></span></p>
           <p class="lane-note"></p>
@@ -367,7 +367,7 @@ footer .wrap{padding-block:32px 40px}
           <div class="lane-head"><span class="lane-tag">Ahora</span><span class="lane-count">Paso <b>1</b> de 5</span></div>
           <div class="screen"><div class="bar"><i></i><i></i><i></i><span class="url"></span></div><div class="view"><div class="cam"></div><span class="chip"></span><div class="done"><b>✓</b><span></span></div></div></div>
           <div class="track"></div>
-          <p class="lane-stats"><span>Clics <b class="sc">0</b></span><span>Teclas pulsadas <b class="st">0</b></span></p>
+          <p class="lane-stats"><span>Acciones (clics) <b class="sc">0</b></span></p>
           <p class="lane-flow">✓ Flujo continuo, sin interrupciones</p>
           <p class="lane-cap"><span class="n">1</span><span class="t"></span></p>
           <p class="lane-note"></p>
@@ -639,7 +639,7 @@ footer .wrap{padding-block:32px 40px}
     L.ripple=document.createElement('div');L.ripple.className='ripple';
     L.cam.appendChild(L.ripple);L.cam.appendChild(L.cursor);
     L.flow=el.querySelector('.lane-flow');L.brks=0;
-    L.sc=el.querySelector('.sc');L.st=el.querySelector('.st');L.clics=0;L.teclas=0;
+    L.sc=el.querySelector('.sc');L.clics=0;
     L.tip=document.createElement('div');L.tip.className='tip';L.tip.innerHTML='<b></b><span></span>';L.view.appendChild(L.tip);
     L.hls=[];L.hlBoxes=[];L.typed=[];
     if(d.steps.some(function(s){return s.doc})){
@@ -678,7 +678,7 @@ footer .wrap{padding-block:32px 40px}
     var q=xy(L,pt);L.cam.style.transformOrigin=q[0]+'px '+q[1]+'px';L.cam.style.transform='scale('+(z||1.3)+')';
   }
   function tap(L,small){
-    count(L,'c');
+    count(L);
     var q=xy(L,L.pt);L.ripple.style.left=q[0]+'px';L.ripple.style.top=q[1]+'px';
     L.ripple.classList.toggle('sm',!!small);L.ripple.classList.remove('go');L.ripple.offsetWidth;L.ripple.classList.add('go');
     L.cursor.classList.add('press');setTimeout(function(){L.cursor.classList.remove('press')},160);
@@ -731,7 +731,7 @@ footer .wrap{padding-block:32px 40px}
     tap(L,true);await wait(200);
     for(var c=1;c<=f[1].length;c++){
       if(r!==run)return;
-      t.textContent=f[2]?'•'.repeat(c):f[1].slice(0,c);count(L,'t');
+      t.textContent=f[2]?'•'.repeat(c):f[1].slice(0,c);
       await wait(f[2]?95:70);
     }
     await wait(250);t.classList.remove('caret');
@@ -750,13 +750,11 @@ footer .wrap{padding-block:32px 40px}
     L.segs[L.i].classList.add('brk');
     tip(L,'❚❚',text,{brk:true,top:true,head:'Interrupción '+L.brks+' de 3'});
   }
-  // Contador de esfuerzo: clics y teclas pulsadas
-  function count(L,k){
-    if(k==='c'){L.clics++;L.sc.textContent=L.clics;bump(L.sc)}else{L.teclas++;L.st.textContent=L.teclas}
-  }
+  // Contador de esfuerzo: acciones (clics)
+  function count(L){L.clics++;L.sc.textContent=L.clics;bump(L.sc)}
   function bump(b){b.classList.remove('bump');b.offsetWidth;b.classList.add('bump')}
   function reset(L){
-    L.clics=0;L.teclas=0;L.sc.textContent='0';L.st.textContent='0';
+    L.clics=0;L.sc.textContent='0';
     L.brks=0;L.segs.forEach(function(sg){sg.classList.remove('brk')});
     if(L.flow.querySelector('b')){L.flow.classList.remove('hit');L.flow.querySelector('b').textContent='0'}
     L.cam.style.transform='';L.done.classList.remove('on');L.cursor.classList.remove('wheel');
@@ -864,7 +862,7 @@ footer .wrap{padding-block:32px 40px}
     go(oldL,r).then(function(ok){
       if(!ok||r!==run)return;
       state='ended';setPlaying(false);
-      msg.innerHTML='Mismo objetivo, empezar el primer curso: <strong>de 10 pasos con 3 interrupciones a 5 pasos en un flujo continuo</strong>. Antes, '+oldL.clics+' clics y '+oldL.teclas+' teclas pulsadas; ahora, '+newL.clics+' clics y '+newL.teclas+' teclas.';
+      msg.innerHTML='Mismo objetivo, empezar el primer curso: <strong>de 10 pasos con 3 interrupciones a 5 pasos en un flujo continuo</strong>. Antes, '+oldL.clics+' acciones (clics); ahora, '+newL.clics+'.';
     });
     setPlaying(true);
   }
