@@ -628,10 +628,10 @@ footer .wrap{padding-block:32px 40px}
       {u:WEB,doc:[10.5,35.8,83.4,85.5],sp:[50,62],enable:[[6.35,91.8,13.96,94.7]],c:[10.2,93.4],z:1.5,warn:'Había que ver todas las páginas del texto legal antes de poder cubrir el formulario con los datos para crear la cuenta.',note:'Seis páginas de texto legal antes de llegar al formulario: el botón no se activaba hasta el final de la última.'},
       {u:WEB,unchk:[1.5,59.1,4.05,61.95],pts:[[3,60.8,1]],c:[8,79.8],z:1.6,note:'Había otra pantalla, solo para marcar una casilla de consentimiento.'},
       {u:WEB,focus:[
-        {p:[40,5],z:2.2,boxes:[[7,10.4,78.2,15.6]],t:'Escoger un nombre de usuario',type:[[[7.9,11.3,77.3,14.7],'carmen.lopez58']]},
-        {p:[40,21],z:2.2,boxes:[[7,19.1,78.2,24.3]],t:'Contraseña con mayúsculas, minúsculas, números y caracteres especiales',type:[[[7.9,20,77.3,23.35],'Carmen#1958',1]]},
-        {p:[40,38],z:1.7,boxes:[[7,27.8,78.2,33],[7,45.1,78.2,50.1]],t:'Obligatorio repetir la contraseña y el correo electrónico',type:[[[7.9,28.7,77.3,32.05],'Carmen#1958',1],[[7.9,37.3,77.3,40.7],'carmen.lopez@gmail.com'],[[7.9,46,77.3,49.2],'carmen.lopez@gmail.com']]}
-      ],pts:[[40,56,0,[[7.9,54.6,77.3,57.9],'Carmen']],[40,65,0,[[7.9,63.3,77.3,66.55],'López']]],warn:'Todos estos puntos generaban una enorme fricción y abandono.',c:[13,85],z:1.4,note:'Pedía un nombre de usuario aparte, una contraseña con muchos requisitos y repetir la contraseña y el correo.'},
+        {p:[40,5],z:2.2,boxes:[[7,10.4,78.2,15.6]],t:'Escoger un nombre de usuario',type:[[[7.9,11.3,77.3,14.7],'carmen.lopez58',0,0,[56.61,8.65,58.54,10.10]]]},
+        {p:[40,21],z:2.2,boxes:[[7,19.1,78.2,24.3]],t:'Contraseña con mayúsculas, minúsculas, números y caracteres especiales',type:[[[7.9,20,77.3,23.35],'Carmen#1958',1,0,[18.11,17.17,19.86,18.91]]]},
+        {p:[40,38],z:1.7,boxes:[[7,27.8,78.2,33],[7,45.1,78.2,50.1]],t:'Obligatorio repetir la contraseña y el correo electrónico',type:[[[7.9,28.7,77.3,32.05],'Carmen#1958',1,0,[24.35,25.98,26.10,27.43]],[[7.9,37.3,77.3,40.7],'carmen.lopez@gmail.com',0,0,[24.71,34.50,26.45,36.24]],[[7.9,46,77.3,49.2],'carmen.lopez@gmail.com',0,0,[23.64,43.45,25.38,44.76]]]}
+      ],pts:[[40,56,0,[[7.9,54.6,77.3,57.9],'Carmen',0,0,[14.90,51.97,16.83,53.57]]],[40,65,0,[[7.9,63.3,77.3,66.55],'López',0,0,[17.22,60.64,18.97,62.09]]]],warn:'Todos estos puntos generaban una enorme fricción y abandono.',c:[13,85],z:1.4,note:'Pedía un nombre de usuario aparte, una contraseña con muchos requisitos y repetir la contraseña y el correo.'},
       {u:WEB,c:[56,49],z:1.6,then:{img:0,p:[78,42],brk:1,warn:'En esta parte del proceso el flujo quedaba interrumpido, con lo cual era necesario que el usuario abriese el correo electrónico en su navegador.'},note:'Al pulsar «Continuar» volvía a la pantalla de acceso: había que salir de la plataforma e ir al correo.'},
       {u:MAIL,pre:[{desk:1,c:[6.75,59.8],z:1.8,dbl:1},{from:3,c:[70,91],z:1.6}],brk:'Había que salir de la plataforma, abrir el correo en el navegador y buscar el mensaje.',c:[47,46],z:1.4,note:'El mensaje de confirmación traía un enlace largo.'},
       {u:WEB,brk:'El enlace devolvía a la pantalla de acceso: había que teclear otra vez el usuario y la contraseña.',pz:[99,53,2.2],pts:[[93,50.6,0,[[85.8,49.3,99,52],'carmen.lopez58',0,1]],[93,54.8,0,[[85.8,53.4,99,56.2],'Carmen#1958',1,1]]],c:[92,59],z:1.8,note:'Tras confirmar, había que volver a escribir usuario y contraseña.'},
@@ -781,6 +781,11 @@ footer .wrap{padding-block:32px 40px}
     t.style.width=((r[2]-r[0])/100*b.w-2)+'px';t.style.height=(hgt-2)+'px';
     t.style.fontSize=Math.max(4,hgt*.48)+'px';t.style.paddingLeft=(hgt*.3)+'px';
   }
+  // Campo obligatorio cubierto: su icono pasa de rojo a negro
+  function reqOk(L,rect){
+    var rq=document.createElement('div');rq.className='typed reqok';rq.rect=rect;rq.textContent='!';
+    L.cam.insertBefore(rq,L.ripple);L.typed.push(rq);fieldPlace(L,rq);rq.style.fontSize=(parseFloat(rq.style.height)*.8)+'px';
+  }
   async function typeIn(L,f,wait,r){
     var t=document.createElement('div');t.className='typed caret'+(f[3]?' dark':'');t.rect=f[0];
     L.cam.insertBefore(t,L.ripple);L.typed.push(t);fieldPlace(L,t);
@@ -791,6 +796,7 @@ footer .wrap{padding-block:32px 40px}
       await wait(f[2]?95:70);
     }
     await wait(250);t.classList.remove('caret');
+    if(f[4])reqOk(L,f[4]);
     return t;
   }
   // o: {warn, brk, ok, top, head}
@@ -902,11 +908,7 @@ footer .wrap{padding-block:32px 40px}
         tf.textContent=fx.to;tf.classList.add('fixed');sg.remove();
         await wait(900);L.tip.classList.remove('on');await wait(300);
       }
-      if(s.req&&s.req[k]){
-        // Campo obligatorio cubierto: su icono pasa de rojo a negro
-        var rq=document.createElement('div');rq.className='typed reqok';rq.rect=s.req[k];rq.textContent='!';
-        L.cam.insertBefore(rq,L.ripple);L.typed.push(rq);fieldPlace(L,rq);rq.style.fontSize=(parseFloat(rq.style.height)*.8)+'px';
-      }
+      if(s.req&&s.req[k])reqOk(L,s.req[k]);
 
     }
     if(!s.c)return;
