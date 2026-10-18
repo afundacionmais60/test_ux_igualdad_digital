@@ -818,6 +818,25 @@ footer .wrap{padding-block:32px 40px}
     var k=L.doc.clientWidth/LEGAL.w,y=p*(LEGAL.ph+LEGAL.gap)*k,max=L.docImg.offsetHeight-L.doc.clientHeight;
     L.docImg.style.transform='translateY('+(-Math.min(y,max))+'px)';
   }
+  // Muestra la explicación sin tapar el elemento indicado: abajo, arriba o con menos zoom; si no hay sitio, no la muestra
+  function hits(a,b){return !(a.right<=b.left||a.left>=b.right||a.bottom<=b.top-6||a.top>=b.bottom+6)}
+  function tipRect(L,top){
+    var v=L.view.getBoundingClientRect(),h=L.tip.offsetHeight,m=parseFloat(getComputedStyle(L.tip).left)||12;
+    return top?{left:v.left,right:v.right,top:v.top+m,bottom:v.top+m+h}:{left:v.left,right:v.right,top:v.bottom-m-h,bottom:v.bottom-m};
+  }
+  async function tipClear(L,el,text,wait,r){
+    tip(L,'✓',text,{ok:true});L.tip.classList.remove('on');
+    var z=L.cam.style.transform;
+    for(var pass=0;pass<2;pass++){
+      var e=el.getBoundingClientRect();
+      if(!hits(tipRect(L,false),e)){tip(L,'✓',text,{ok:true});return true}
+      if(!hits(tipRect(L,true),e)){tip(L,'✓',text,{ok:true,top:true});return true}
+      if(pass===0&&z){L.cam.style.transform='';await wait(900);if(r!==run)return false}else break;
+    }
+    // Sin sitio ni siquiera sin zoom: se recupera el zoom para que el aviso se lea bien
+    if(z&&!L.cam.style.transform){L.cam.style.transform=z;await wait(900)}
+    return false;
+  }
   // Escritura simulada en un campo: f = [[x1,y1,x2,y2], texto, oculto (contraseña), campo oscuro]
   function fieldPlace(L,t){
     var b=L.pics[L.pi].box,r=t.rect;if(!b)return;
@@ -947,11 +966,16 @@ footer .wrap{padding-block:32px 40px}
         // Corrección del correo: aparece el aviso, clic en «Sí, corregir» y el campo se corrige
         var fx=pt[5],sg=document.createElement('div');sg.className='sugg';sg.rect=fx.box;sg.innerHTML='<img alt="Aviso: ¿Quiso escribir '+fx.to+'? Sí, corregir / No, está bien" src="'+SUGG+'">';
         L.cam.insertBefore(sg,L.ripple);L.typed.push(sg);fieldPlace(L,sg);
-        tip(L,'✓',fx.tip,{ok:true});await wait(Math.max(2600,fx.tip.length*45));if(r!==run)return;
+        // El cursor va primero al botón para no tapar el correo sugerido mientras se lee
         L.cursor.classList.remove('hop');place(L,[fx.box[0]+(fx.box[2]-fx.box[0])*fx.btn[0]/100,fx.box[1]+(fx.box[3]-fx.box[1])*fx.btn[1]/100]);
-        await wait(900);if(r!==run)return;tap(L);await wait(350);
+        var shown=await tipClear(L,sg,fx.tip,wait,r);if(r!==run)return;
+        await wait(shown?Math.max(2600,fx.tip.length*45):2400);if(r!==run)return;
+        tap(L);await wait(350);
         tf.textContent=fx.to;tf.classList.add('fixed');sg.remove();
-        await wait(900);L.tip.classList.remove('on');await wait(300);
+        // Si no cabía junto al aviso, la explicación aparece justo después de corregir
+        if(!shown){tip(L,'✓',fx.tip,{ok:true});await wait(Math.max(2600,fx.tip.length*45));if(r!==run)return}
+        else await wait(900);
+        L.tip.classList.remove('on');await wait(300);
       }
       if(s.req&&s.req[k])reqOk(L,s.req[k]);
 
