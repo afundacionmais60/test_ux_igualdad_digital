@@ -160,6 +160,8 @@ figcaption::before{content:"";width:14px;height:14px;border-radius:50%;flex:none
 .chip.bot{top:auto;bottom:12px}
 .typed{position:absolute;z-index:2;display:flex;align-items:center;overflow:hidden;white-space:nowrap;background:#fff;color:#212121;font-family:Arial,Helvetica,sans-serif;pointer-events:none}
 .typed.dark{background:#5F89C6;color:#fff}
+.typed.btnon{justify-content:center;padding-left:0!important;border-radius:4px;background:#212121;color:#fff;font-weight:700;animation:btnon .4s ease-out}
+@keyframes btnon{from{background:#D5D8DC}}
 .typed.caret::after{content:"";flex:none;width:1.5px;height:62%;margin-left:1px;background:currentColor;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .hl{position:absolute;z-index:2;border:3px solid #C5221F;border-radius:6px;background:rgba(197,34,31,.07);opacity:0;transition:opacity .3s;pointer-events:none}
@@ -596,8 +598,8 @@ footer .wrap{padding-block:32px 40px}
   var DATA={
     old:{unit:'Paso',slow:1.3,fin:'Dentro del curso tras 10 pasos, {c} clics y <span class="alert">3 interrupciones</span>',steps:[
       {u:WEB,c:[92,70],z:2,note:'Pulsa «Crear nueva cuenta».'},
-      {u:WEB,doc:[10.5,35.8,83.4,85.5],sp:[50,62],c:[10,93],z:1.5,warn:'Había que ver todas las páginas del texto legal antes de poder cubrir el formulario con los datos para crear la cuenta.',note:'Seis páginas de texto legal antes de llegar al formulario: el botón no se activa hasta el final de la última.'},
-      {u:WEB,pts:[[2.5,60,1]],c:[8,78],z:1.6,note:'Otra pantalla, solo para marcar una casilla de consentimiento.'},
+      {u:WEB,doc:[10.5,35.8,83.4,85.5],sp:[50,62],enable:[[6.35,91.8,13.96,94.7],'Siguiente'],c:[10.2,93.4],z:1.5,warn:'Había que ver todas las páginas del texto legal antes de poder cubrir el formulario con los datos para crear la cuenta.',note:'Seis páginas de texto legal antes de llegar al formulario: el botón no se activa hasta el final de la última.'},
+      {u:WEB,pts:[[3,60.8,1]],c:[8,78.6],z:1.6,note:'Otra pantalla, solo para marcar una casilla de consentimiento.'},
       {u:WEB,focus:[
         {p:[40,5],z:2.2,boxes:[[7,10.4,78.2,15.6]],t:'Escoger un nombre de usuario',type:[[[7.9,11.3,77.3,14.7],'carmen.lopez58']]},
         {p:[40,21],z:2.2,boxes:[[7,19.1,78.2,24.3]],t:'Contraseña con mayúsculas, minúsculas, números y caracteres especiales',type:[[[7.9,20,77.3,23.35],'Carmen#1958',1]]},
@@ -824,6 +826,11 @@ footer .wrap{padding-block:32px 40px}
       }
       docScroll(L,LEGAL.pages);await wait(900);if(r!==run)return;
       L.cursor.classList.remove('wheel');L.chip.textContent='Ya se puede seguir';L.tip.classList.remove('on');L.cam.style.transform='';
+      if(s.enable){
+        // El botón «Siguiente», gris hasta ahora, se activa al llegar al final del texto legal
+        var bt=document.createElement('div');bt.className='typed btnon';bt.rect=s.enable[0];bt.textContent=s.enable[1];
+        L.cam.insertBefore(bt,L.ripple);L.typed.push(bt);fieldPlace(L,bt);
+      }
       await wait(500);
     }
     if(s.focus){
