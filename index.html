@@ -74,9 +74,11 @@ a{color:var(--head)}
 .sec .num{display:block;text-align:center;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
 .prose{max-width:70ch;margin:0 auto}
 .prose p{margin:0 0 14px}
-.facts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin:36px 0 0;border-top:3px solid var(--band)}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:36px 0 0;border-top:3px solid var(--band)}
 .facts div{padding:18px 20px 6px 0;min-width:0}
 .facts div+div{padding-left:20px;border-left:1px solid var(--line)}
+.facts div:nth-child(3n+1){padding-left:0;border-left:0}
+.facts div:nth-child(n+4){border-top:1px solid var(--line)}
 .facts b{display:block;font-weight:300;font-size:clamp(32px,3.2vw,44px);line-height:1;color:var(--band);font-variant-numeric:tabular-nums;white-space:nowrap}
 .facts span{display:block;font-size:15px;color:var(--muted);margin-top:8px}
 .sec{padding-block:56px 40px;border-top:1px solid var(--line)}
@@ -302,12 +304,6 @@ footer .wrap{padding-block:32px 40px}
 .lb .hint{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);transform:translateX(-50%);background:rgba(0,0,0,.6);color:#fff;font-size:13px;padding:6px 12px;border-radius:999px;pointer-events:none}
 
 @media (max-width:1100px){.steps{grid-template-columns:repeat(3,minmax(0,1fr))}}
-/* Cifras: en pantallas medianas, tres por fila para que «10 → 5» no invada la columna vecina */
-@media (min-width:901px) and (max-width:1400px){
-  .facts{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .facts div:nth-child(3n+1){padding-left:0;border-left:0}
-  .facts div:nth-child(n+4){border-top:1px solid var(--line)}
-}
 @media (max-width:900px){
   .layout{display:block}
   .side{display:none}
@@ -322,6 +318,7 @@ footer .wrap{padding-block:32px 40px}
   .band .mark{display:none}
   .cmp,.cmp.wide-right,.callout{grid-template-columns:1fr}
   .facts{grid-template-columns:1fr 1fr}
+  .facts div:nth-child(2n){padding-left:20px;border-left:1px solid var(--line)}
   .facts div:nth-child(2n+1){padding-left:0;border-left:0}
   .facts div:nth-child(n+3){border-top:1px solid var(--line)}
   .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -388,6 +385,7 @@ footer .wrap{padding-block:32px 40px}
       <div><b>98</b><span>puntos de fricción detectados en 10 fases del recorrido</span></div>
       <div><b>88&nbsp;%</b><span>de ellos solucionados; el resto, mejorados parcialmente</span></div>
       <div><b>10&nbsp;→&nbsp;5</b><span>pasos para empezar el primer curso</span></div>
+      <div><b>22&nbsp;→&nbsp;11</b><span>clics para empezar el primer curso</span></div>
       <div><b>3&nbsp;→&nbsp;0</b><span>interrupciones en el alta, ahora un flujo continuo</span></div>
       <div><b>0&nbsp;€</b><span>de coste de proveedor, con cambios hechos en casa</span></div>
     </div>
