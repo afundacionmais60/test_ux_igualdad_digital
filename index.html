@@ -163,6 +163,7 @@ figcaption::before{content:"";width:14px;height:14px;border-radius:50%;flex:none
 .sugg{position:absolute;z-index:3;padding:0!important;border-radius:6px;box-shadow:0 4px 14px rgba(32,33,36,.25);animation:btnon .35s ease-out}
 .sugg img{display:block;width:100%;height:100%}
 .typed.fixed{animation:chkon .5s ease-out}
+.typed.unchk{padding:0!important;background:#fff;border:1.5px solid #767676;border-radius:2px}
 .typed.chk{justify-content:center;padding-left:0!important;border-radius:3px;background:var(--band);color:#fff;font-weight:700;animation:chkon .3s ease-out}
 /* Oscurece el botón gris de la captura (fondo ≈ 220 → casi negro) y deja su texto en blanco, sin añadir texto encima */
 .btnon{position:absolute;z-index:2;border-radius:4px;pointer-events:none;-webkit-backdrop-filter:brightness(.54) contrast(10.9);backdrop-filter:brightness(.54) contrast(10.9);animation:btnon .4s ease-out}
@@ -377,7 +378,7 @@ footer .wrap{padding-block:32px 40px}
   <p class="num">1</p><h2>Registro y primer acceso</h2>
   <div class="prose">
     <p><strong>Era el punto más crítico del recorrido.</strong> Antes, una persona necesitaba <strong>10 pasos</strong> para empezar su primer curso, entre ellos leer seis páginas de texto legal con desplazamiento obligatorio y rellenar un formulario con datos duplicados. Además, <strong>el proceso se interrumpía varias veces</strong>: había que salir de la plataforma para abrir el correo y volver a teclear el usuario y la contraseña.</p>
-    <p><strong>Ahora son 5 pasos, en un flujo continuo y sin interrupciones.</strong> El texto legal queda en <strong>una sola casilla desplegable</strong>, el formulario pide solo lo necesario y, en lugar de repetir el correo, introduje un código que detecta y propone corregir errores habituales al escribirlo, y la pantalla de confirmación explica en tres pasos qué hacer a continuación. Su botón lleva un código que <strong>identifica el servidor de correo</strong> (Gmail, Outlook, Hotmail o cualquier otro) y abre directamente la bandeja de entrada, y desde el mensaje se entra <strong>directamente al curso</strong>: una cookie de WordPress le indica a Moodle por qué curso entró la persona, en lugar de llevarla al panel general con todos los cursos como antes.</p>
+    <p><strong>Ahora son 5 pasos, en un flujo continuo y sin interrupciones.</strong> El texto legal queda en <strong>una sola casilla desplegable</strong>, el formulario pide solo lo necesario y, en lugar de repetir el correo, introduje un código que detecta y propone corregir errores habituales al escribirlo, y la pantalla de confirmación explica en tres pasos qué hacer a continuación. Su botón lleva un código que <strong>identifica el servidor de correo</strong> (Gmail, Outlook, Hotmail o cualquier otro) y abre directamente la bandeja de entrada, y desde el mensaje se entra <strong>directamente al curso</strong>: programé una cookie en WordPress que le indica a Moodle por qué curso entró la persona, en lugar de llevarla al panel general con todos los cursos como antes.</p>
   </div>
   <div class="flow">
     <h3>El recorrido, en movimiento <small>simulación con las capturas reales, antes y ahora a la vez</small></h3>
@@ -610,7 +611,7 @@ footer .wrap{padding-block:32px 40px}
     old:{unit:'Paso',slow:1.3,fin:'Dentro del curso tras 10 pasos, {c} clics y <span class="alert">3 interrupciones</span>',steps:[
       {u:WEB,c:[92,70],z:2,note:'Pulsa «Crear nueva cuenta».'},
       {u:WEB,doc:[10.5,35.8,83.4,85.5],sp:[50,62],enable:[[6.35,91.8,13.96,94.7]],c:[10.2,93.4],z:1.5,warn:'Había que ver todas las páginas del texto legal antes de poder cubrir el formulario con los datos para crear la cuenta.',note:'Seis páginas de texto legal antes de llegar al formulario: el botón no se activa hasta el final de la última.'},
-      {u:WEB,pts:[[3,60.8,1]],c:[8,79.8],z:1.6,note:'Otra pantalla, solo para marcar una casilla de consentimiento.'},
+      {u:WEB,unchk:[1.5,59.1,4.05,61.95],pts:[[3,60.8,1]],c:[8,79.8],z:1.6,note:'Otra pantalla, solo para marcar una casilla de consentimiento.'},
       {u:WEB,focus:[
         {p:[40,5],z:2.2,boxes:[[7,10.4,78.2,15.6]],t:'Escoger un nombre de usuario',type:[[[7.9,11.3,77.3,14.7],'carmen.lopez58']]},
         {p:[40,21],z:2.2,boxes:[[7,19.1,78.2,24.3]],t:'Contraseña con mayúsculas, minúsculas, números y caracteres especiales',type:[[[7.9,20,77.3,23.35],'Carmen#1958',1]]},
@@ -628,7 +629,7 @@ footer .wrap{padding-block:32px 40px}
       {u:WEB,pz:[45,28,1.5],pts:[[45,16,0,[[14,14.3,80,17.95],'Carmen']],[45,25,0,[[14,23.55,80,27.15],'López']],[45,34,0,[[14,32.95,80,36.55],'carmen.lopez@gmial.com'],0,{to:'carmen.lopez@gmail.com',box:[13.9,37.4,80,51.6],btn:[18.1,65],tip:'En lugar de pedir el correo dos veces, introduje un código que detecta errores habituales al escribirlo («gmial» en vez de «gmail») y propone corregirlos con un clic.'}],[45,44,0,[[14,42.2,80,45.85],'Carmen#1958',1]],[27,53],[15.35,79.85,1,0,[13.9,78.8,16.8,80.9]]],c:[24,87],z:1.3,note:'Un único formulario con lo imprescindible; el texto legal, en un desplegable.'},
       {u:WEB,ok:'El botón lleva un código que identifica el servidor de correo (Gmail, Outlook, Hotmail o cualquier otro) y abre directamente la bandeja de entrada.',chip:'carmen.lopez@gmail.com → abre Gmail',c:[66,67],z:1.4,note:'Tres pasos claros y un botón que abre directamente su bandeja de entrada.'},
       {u:MAIL,ok:'Desde la bandeja, el enlace del mensaje confirma la cuenta y lleva directamente al curso.',c:[70,91],z:1.3,note:'Abre el mensaje de Afundación y confirma la cuenta.'},
-      {u:WEB,ok:'Una cookie de WordPress le dice a Moodle por qué curso entró la persona: llega directamente a ese curso, sin volver a iniciar sesión ni pasar por el panel general de todos los cursos.',c:[17,91],z:1.4,note:'Llega a la ficha del curso que eligió en la web: un clic y empieza.'}
+      {u:WEB,ok:'Programé una cookie en WordPress que le dice a Moodle por qué curso entró la persona: llega directamente a ese curso, sin volver a iniciar sesión ni pasar por el panel general de todos los cursos.',c:[17,91],z:1.4,note:'Llega a la ficha del curso que eligió en la web: un clic y empieza.'}
     ]}
   };
   // Texto legal completo (6 páginas del PDF original, apiladas) que se desplaza dentro del visor del paso 2
@@ -728,6 +729,7 @@ footer .wrap{padding-block:32px 40px}
     L.url.textContent=s.u;L.count.textContent=i+1;L.n.textContent=i+1;L.t.textContent=s.label;L.note.textContent=s.note;
     L.chip.classList.remove('on','bot');L.tip.classList.remove('on');boxes(L,[]);
     L.typed.forEach(function(t){t.remove()});L.typed=[];
+    if(s.unchk){var u=document.createElement('div');u.className='typed unchk';u.rect=s.unchk;L.cam.insertBefore(u,L.ripple);L.typed.push(u);fieldPlace(L,u);L.unchk=u}
     if(L.doc){L.doc.classList.toggle('on',!!s.doc);L.docImg.style.transform='';docPlace(L)}
   }
   // Muestra una captura (puede ser la de otro paso, p. ej. al volver a la pantalla de acceso)
@@ -870,7 +872,7 @@ footer .wrap{padding-block:32px 40px}
       if(r!==run)return;var pt=s.pts[k];
       if(s.pz){if(pt[3])zoom(L,s.pz,s.pz[2]);else L.cam.style.transform=''}
       L.cursor.classList.toggle('hop',k>0);place(L,pt);await wait(k?340:880);
-      if(pt[2]){tap(L,true);await wait(260)}
+      if(pt[2]){tap(L,true);if(s.unchk&&L.unchk){L.unchk.remove();L.unchk=null}await wait(260)}
       if(pt[4]){var ck=document.createElement('div');ck.className='typed chk';ck.rect=pt[4];ck.textContent='✓';L.cam.insertBefore(ck,L.ripple);L.typed.push(ck);fieldPlace(L,ck);await wait(300)}
       if(pt[3]){var tf=await typeIn(L,pt[3],wait,r);await wait(150)}
       if(pt[5]&&tf){
