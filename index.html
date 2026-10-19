@@ -232,6 +232,22 @@ figcaption::before{content:"";width:14px;height:14px;border-radius:50%;flex:none
 @keyframes cur{50%{opacity:.45}}
 .lane.b .track span.brk{background:#C5221F}
 .lane-cap{display:flex;gap:10px;align-items:center;margin:14px 0 0;font-size:18px;font-weight:700;line-height:1.25}
+.lane-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0 0}
+.lane .m{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px;margin:0;padding:12px 8px 10px;border:1px solid var(--line);background:var(--tint);border-radius:10px;text-align:center;transition:background .3s,border-color .3s}
+.lane .m .lbl{font-size:13px;font-weight:700;color:var(--muted);line-height:1.2;min-height:2.4em;display:flex;align-items:center;justify-content:center}
+.lane .m b{display:block;min-width:0;height:auto;padding:0;background:none;border-radius:0;font-size:32px;font-weight:700;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.lane.a .m b{color:var(--head)}
+.lane .m b.bump{animation:bump .25s ease-out}
+.lane .m .of{font-size:13px;color:var(--muted);line-height:1.2}
+.lane.a .m .of{color:var(--head);font-weight:700}
+.lane .m-step .n{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-size:28px;font-weight:700;font-variant-numeric:tabular-nums;color:#fff;box-shadow:0 2px 6px rgba(32,33,36,.18)}
+.lane.b .m-step .n{background:var(--before)}
+.lane.a .m-step .n{background:var(--head)}
+.lane.b .m.lane-flow b,.lane.a .m.lane-flow b{display:block;min-width:0;height:auto;padding:0;background:none;border-radius:0;transition:color .3s}
+.lane-cap+.lane-note{margin-left:0}
+.lane.b .m.lane-flow.hit{background:#FDECEA;border-color:#E8A39F}
+.lane.b .m.lane-flow.hit b{background:none;color:#C5221F}
+.lane.wait .lane-metrics{opacity:.42;filter:grayscale(.4);transition:opacity .4s,filter .4s}
 .lane.b .lane-cap{color:var(--muted)}
 .lane-cap .n{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
 .lane-note{margin:6px 0 0 46px;font-size:15px;line-height:1.45;color:var(--muted);min-height:4.4em}
@@ -432,22 +448,28 @@ footer .wrap{padding-block:32px 40px}
     <div class="race" id="race" role="group" aria-label="Simulación del registro: antes en 10 pasos y ahora en 5">
       <div class="race-lanes">
         <div class="lane b" data-lane="old">
-          <div class="lane-head"><span class="lane-tag">Antes</span><span class="lane-count">Paso <b>1</b> de 10</span></div>
+          <div class="lane-head"><span class="lane-tag">Antes</span></div>
           <div class="screen"><div class="bar"><i></i><i></i><i></i><span class="url"></span></div><div class="view"><div class="cam"></div><span class="chip"></span><div class="done"><b>✓</b><span></span></div></div></div>
           <div class="track"></div>
-          <p class="lane-stats"><span>Acciones (clics) <b class="sc">0</b></span></p>
-          <p class="lane-flow">Interrupciones del proceso: <b>0</b></p>
-          <p class="lane-cap"><span class="n">1</span><span class="t"></span></p>
+          <div class="lane-metrics">
+            <div class="m m-step"><span class="lbl">Paso</span><span class="n">1</span><span class="of">de 10</span></div>
+            <div class="m"><span class="lbl">Acciones (clics)</span><b class="sc">0</b></div>
+            <div class="m lane-flow"><span class="lbl">Interrupciones en el proceso</span><b>0</b></div>
+          </div>
+          <p class="lane-cap"><span class="t"></span></p>
           <p class="lane-note"></p>
           <p class="lane-ctl"><button type="button" class="lane-play"></button></p>
         </div>
         <div class="lane a" data-lane="new">
-          <div class="lane-head"><span class="lane-tag">Ahora</span><span class="lane-count">Paso <b>1</b> de 5</span></div>
+          <div class="lane-head"><span class="lane-tag">Ahora</span></div>
           <div class="screen"><div class="bar"><i></i><i></i><i></i><span class="url"></span></div><div class="view"><div class="cam"></div><span class="chip"></span><div class="done"><b>✓</b><span></span></div></div></div>
           <div class="track"></div>
-          <p class="lane-stats"><span>Acciones (clics) <b class="sc">0</b></span></p>
-          <p class="lane-flow">✓ Flujo continuo, sin interrupciones</p>
-          <p class="lane-cap"><span class="n">1</span><span class="t"></span></p>
+          <div class="lane-metrics">
+            <div class="m m-step"><span class="lbl">Paso</span><span class="n">1</span><span class="of">de 5</span></div>
+            <div class="m"><span class="lbl">Acciones (clics)</span><b class="sc">0</b></div>
+            <div class="m lane-flow"><span class="lbl">Interrupciones en el proceso</span><b>0</b><span class="of">✓ flujo continuo</span></div>
+          </div>
+          <p class="lane-cap"><span class="t"></span></p>
           <p class="lane-note"></p>
           <p class="lane-ctl"><button type="button" class="lane-play"></button></p>
         </div>
@@ -711,7 +733,7 @@ footer .wrap{padding-block:32px 40px}
     var key=el.dataset.lane,d=DATA[key];
     var src=[].slice.call(document.querySelectorAll('#registro .steps'+(key==='new'?'.now':':not(.now)')+' .step'));
     var L={el:el,d:d,i:0,cam:el.querySelector('.cam'),view:el.querySelector('.view'),chip:el.querySelector('.chip'),done:el.querySelector('.done'),
-      url:el.querySelector('.url'),count:el.querySelector('.lane-count b'),n:el.querySelector('.lane-cap .n'),t:el.querySelector('.lane-cap .t'),note:el.querySelector('.lane-note'),pics:[],segs:[],pt:[50,60],pi:0};
+      url:el.querySelector('.url'),count:el.querySelector('.m-step .n'),n:el.querySelector('.m-step .n'),t:el.querySelector('.lane-cap .t'),note:el.querySelector('.lane-note'),pics:[],segs:[],pt:[50,60],pi:0};
     d.steps.forEach(function(s,i){
       var g=src[i]&&src[i].querySelector('img'),im=new Image();
       im.className='pic';im.alt=g?g.alt:'';im.src=g?g.src:'';im.setAttribute('aria-hidden','true');
